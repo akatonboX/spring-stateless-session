@@ -1,10 +1,13 @@
 package info.sw0.spring.sample_app;
 
+import java.io.Closeable;
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
 
-public class StatelessHttpServletRequestWrapper extends HttpServletRequestWrapper{
+public class StatelessHttpServletRequestWrapper extends HttpServletRequestWrapper implements Closeable{
 
   private StatelessHttpSession session;
   public StatelessHttpServletRequestWrapper(HttpServletRequest request, SessionData sessionData) {
@@ -19,6 +22,11 @@ public class StatelessHttpServletRequestWrapper extends HttpServletRequestWrappe
   @Override
   public HttpSession getSession(boolean create) {
     return this.session;
+  }
+  @Override
+  public void close() throws IOException {
+    this.session.close();
+    this.session = null;
   }
   
 

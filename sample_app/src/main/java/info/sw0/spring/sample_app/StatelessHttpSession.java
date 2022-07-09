@@ -18,6 +18,10 @@ public class StatelessHttpSession implements HttpSession, Closeable {
     this.sessionData = sessionData;
     this.request = request;
   }
+
+  public SessionData getSessionData(){
+    return this.sessionData;
+  }
   @Override
   public long getCreationTime() {
     return this.sessionData.getCreationTime();
@@ -65,7 +69,7 @@ public class StatelessHttpSession implements HttpSession, Closeable {
 
   @Override
   public Enumeration<String> getAttributeNames() {
-    return new EnumerationWrapper(this.sessionData.getAttributes().keySet().iterator());
+    return new EnumerationWrapper<String>(this.sessionData.getAttributes().keySet().iterator());
   }
 
   @Override
