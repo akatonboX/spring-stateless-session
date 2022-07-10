@@ -7,25 +7,23 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.context.ApplicationContext;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Slf4j
 public class StatelessSessionFilter implements Filter{
 
-  private ApplicationContext context;
   private StatelessSessionHelper statelessSessionHelper;
 
-  public StatelessSessionFilter(ApplicationContext context, StatelessSessionHelper statelessSessionHelper){
-    this.context = context;
+  public StatelessSessionFilter(StatelessSessionHelper statelessSessionHelper){
     this.statelessSessionHelper = statelessSessionHelper;
   }
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {  
+    log.debug("start doFilter");
     if(request instanceof HttpServletRequest){
+      log.debug("get cookie");
       //CookieからSessionDataを取得するか、新規作成
       var sessionData = this.statelessSessionHelper.getSessionData((HttpServletRequest)request).orElse(
         this.statelessSessionHelper.createSessionData()
@@ -38,8 +36,10 @@ public class StatelessSessionFilter implements Filter{
       //終了処理
       requestWrapper.close();
 
+      
     }
     else{
+      log.debug("skip");
       chain.doFilter(request, response);
     }   
   }

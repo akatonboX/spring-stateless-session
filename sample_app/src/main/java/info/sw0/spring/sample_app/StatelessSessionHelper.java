@@ -23,6 +23,9 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class StatelessSessionHelper {
   private String cookieName;
   private long inactiveInterval;
@@ -46,6 +49,7 @@ public class StatelessSessionHelper {
           return Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals(this.cookieName)).findFirst().map(cookie -> this.verifier.verify(cookie.getValue()));
         }
         catch (JWTVerificationException exception){
+          log.info("JWTVerificationExceptionが発生。message={}", exception.getMessage());
           return Optional.empty();
         }
       }
@@ -103,7 +107,6 @@ public class StatelessSessionHelper {
 
     //■Cookie生成
     var cookie = new Cookie(this.cookieName, token);
-    // cookie.setMaxAge(265 * 24 * 60 * 60); 
     cookie.setPath("/"); 
     response.addCookie(cookie);
   }

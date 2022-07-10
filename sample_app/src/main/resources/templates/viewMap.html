@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Hello</title>
+</head>
+
+<body>
+	<h1 th:text="${title}"></h1>
+	<table>
+		<thead class="thead-dark">
+			<tr>
+				<th th:each="entry: ${data}" th:text="${entry.key}"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td th:each="entry: ${data}" th:text="${entry.value}"></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+
+</html>
