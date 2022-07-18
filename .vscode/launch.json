@@ -12,10 +12,10 @@
     },
     {
       "type": "java",
-      "name": "sample_app",
+      "name": "sample-app",
       "request": "launch",
       "mainClass": "info.sw0.spring.sample_app.SampleAppApplication",
-      "projectName": "sample_app",
+      "projectName": "sample-app",
       //"args": "--spring.profiles.active=local"
     }
   ]

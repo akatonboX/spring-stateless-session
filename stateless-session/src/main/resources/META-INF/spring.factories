@@ -1,0 +1,6 @@
+#org.springframework.context.ApplicationContextInitializer=\
+#info.sw0.spring.stateless_session.StatelessSessionContextInitializer
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+info.sw0.spring.stateless_session.Config
+org.springframework.web.WebApplicationInitializer=\
+info.sw0.spring.stateless_session.StatelessWebApplicationInitializer
