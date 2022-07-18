@@ -42,6 +42,13 @@ public class StatelessHttpServletResponseWrapper extends HttpServletResponseWrap
     return new PrintWriterWrapper(super.getWriter(), this.setSessionData);
   }
 
+  @Override
+  public void addHeader(String name, String value) {
+    //Spring Security対策
+    this.setSessionData.run();
+    super.addHeader(name, value);
+  }
+
  
   
 }

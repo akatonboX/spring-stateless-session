@@ -6,7 +6,10 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -31,8 +34,15 @@ public class StatelessSessionFilter implements Filter{
 
       //getSettionを変更したRequestWrappperを用いてchainを実行
       var requestWrapper = new StatelessHttpServletRequestWrapper((HttpServletRequest)request, sessionData);
+
+        
+
       chain.doFilter(requestWrapper, response);
 
+
+          
+
+            
       //終了処理
       requestWrapper.close();
 

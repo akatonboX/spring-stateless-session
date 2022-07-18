@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
 
@@ -14,13 +15,20 @@ public class StatelessHttpSession implements HttpSession, Closeable {
 
   private SessionData sessionData;
   private HttpServletRequest request;
-  public StatelessHttpSession(HttpServletRequest request, SessionData sessionData){
+  private HttpServletResponse response;
+  public StatelessHttpSession(HttpServletRequest request,  SessionData sessionData){
     this.sessionData = sessionData;
     this.request = request;
+    //this.response = response;
   }
 
   public SessionData getSessionData(){
     return this.sessionData;
+  }
+  private void wirteCookie(){
+    if(!this.response.isCommitted()){
+
+    }
   }
   @Override
   public long getCreationTime() {
@@ -80,6 +88,7 @@ public class StatelessHttpSession implements HttpSession, Closeable {
   @Override
   public void setAttribute(String name, Object value) {
     this.sessionData.getAttributes().put(name, value);
+
   }
 
   @Override

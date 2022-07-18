@@ -8,11 +8,15 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.boot.web.servlet.filter.OrderedFilter;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -38,10 +42,12 @@ public class StatelessSessionFilter implements OrderedFilter{
 
       //warpperの用意
       var requestWrapper = new StatelessHttpServletRequestWrapper((HttpServletRequest)request, sessionData);
+      final BooleanWrapper isWrited = new BooleanWrapper(false);
       Runnable setSessionData = () -> {
         log.info("isCommitted={}", response.isCommitted());
-        if(!response.isCommitted()){
+        if(!response.isCommitted() && !isWrited.isValue()){
           this.statelessSessionHelper.setSessionData((HttpServletResponse)response, sessionData);
+          isWrited.setValue(true);
         }
       };
       var responseWrapper = new StatelessHttpServletResponseWrapper((HttpServletResponse)response, setSessionData);
@@ -67,5 +73,12 @@ public class StatelessSessionFilter implements OrderedFilter{
   @Override
   public int getOrder() {
     return Integer.MIN_VALUE;
+  }
+
+  @Setter
+  @Getter
+  @AllArgsConstructor
+  static class BooleanWrapper{
+    private boolean value;  
   }
 }
